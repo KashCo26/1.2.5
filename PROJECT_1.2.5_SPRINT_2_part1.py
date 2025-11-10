@@ -42,11 +42,11 @@ terminate = False
 def begin():
     global terminate
     if not terminate:
-        player.goto(800, -200)
+        player.goto(500, -200)
         wn.bgpic('panel-2.gif')
         intro.clear()
         player.hideturtle()
-        player.goto(-800, -100)
+        player.goto(-500, -100)
         player.showturtle()
         player.goto(-200, -100)
         intro.pencolor("white")
