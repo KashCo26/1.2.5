@@ -41,6 +41,8 @@ terminate = False
 
 def begin():
     global terminate
+    global choice1
+    global choice2
     if not terminate:
         player.goto(500, -200)
         wn.bgpic('panel-2.gif')
@@ -56,7 +58,7 @@ def begin():
         time.sleep(1)
         intro.write("\n\n\n\nI heard that the river queen doesn't like \nhim! But also, the burrow king doesn't \nlike him either! Who should we ask for help?", font=style, align='center')
         choice1.penup()
-        choice1.goto(-250, -200)
+        choice1.goto(50,-50)
         choice1.showturtle()
         choice2.penup()
         choice2.goto(250, -200)
@@ -70,22 +72,28 @@ def waterfall(x, y):
     player.goto(250,-200)
     choice1.shape(queen_image)
     choice1.goto(300, 100)
+    player.hideturtle()
+    player.goto(-500, -200)
     choice1.showturtle()
     wn.bgpic('underwater.gif')
+    time.sleep(1)
+    player.showturtle()
+    player.goto(-300, -200)
 
 def cave(x, y):
     intro.clear()
     choice1.hideturtle()
     choice2.hideturtle()
-    player.goto(-250, 200)
+    player.goto(50, -50)
     choice1.shape(king_image)
-    choice1.goto(-300, 100)
-    choice1.showturtle()
+    choice1.goto(-300, -200)
     player.hideturtle()
-    player.goto(500, 100)
+    player.goto(500, -230)
     time.sleep(1)
-    player.goto(200, 100)
+    choice1.showturtle()
     wn.bgpic('cave_bg.gif')
+    player.showturtle()
+    player.goto(200, -230)
 
 wn.onkeypress(begin, "s")
 choice1.onclick(cave)
