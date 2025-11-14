@@ -3,6 +3,7 @@ import time
 
 #----Initialize turtles----
 wn = trtl.Screen()
+wn.setup(width=1000, height=600)
 player = trtl.Turtle()
 image_file = "the_turtle.gif"
 
@@ -11,6 +12,11 @@ choice1.hideturtle()
 cave_image = "cave_choice.gif"
 choice2 = trtl.Turtle()
 choice2.hideturtle()
+river = trtl.Turtle()
+river.hideturtle()
+queen = trtl.Turtle()
+queen.hideturtle()
+queen.penup()
 waterfall_image = "waterfall_choice.gif"
 queen_image = 'ocean_queen.gif'
 king_image = 'burrow_king.gif'
@@ -38,6 +44,8 @@ intro.write("Welcome, player, to Turtle quest! \nMy name's Trotter and you are\n
 
 #----Turtle onclick methods----
 terminate = False
+stop1 = False
+stop2 = False
 
 def begin():
     global terminate
@@ -66,34 +74,52 @@ def begin():
         terminate = True
 
 def waterfall(x, y):
-    intro.clear()
-    choice1.hideturtle()
-    choice2.hideturtle()
-    player.goto(250,-200)
-    choice1.shape(queen_image)
-    choice1.goto(300, 100)
-    player.hideturtle()
-    player.goto(-500, -200)
-    wn.bgpic('underwater.gif')
-    choice1.showturtle()
-    time.sleep(1)
-    player.showturtle()
-    player.goto(-300, -200)
+    global stop1
+    if not stop1:
+        intro.clear()
+        choice1.hideturtle()
+        choice2.hideturtle()
+        player.goto(250,-200)
+        queen.shape(queen_image)
+        queen.goto(300, 100)
+        player.hideturtle()
+        player.goto(-500, -200)
+        wn.bgpic('underwater.gif')
+        queen.showturtle()
+        time.sleep(1)
+        player.showturtle()
+        player.goto(-300, -200)
+        river.penup()
+        river.goto(150, 150)
+        river.pencolor("white")
+        river.write("Hello turtle...\nWhat do the land dwellers \nhave to do with the \npoor river queen?", font=style, align='center')
+        intro.pencolor("green")
+        intro.goto(5, -250)
+        time.sleep(2)
+        intro.write("The dark overlord has been polluting \nthe river and disturbing the peace!\nPlease help me stop him!", font=style, align='center')  
+        river.clear()
+        time.sleep(2)
+        river.write("Very well... for the river\n But if I am too\nlend you my help, \n you must pass a test", font=style, align='center')
+        
+        stop1 = True
 
 def cave(x, y):
-    intro.clear()
-    choice1.hideturtle()
-    choice2.hideturtle()
-    player.goto(50, -50)
-    choice1.shape(king_image)
-    choice1.goto(-300, -200)
-    player.hideturtle()
-    player.goto(500, -230)
-    time.sleep(1)
-    choice1.showturtle()
-    wn.bgpic('cave_bg.gif')
-    player.showturtle()
-    player.goto(200, -230)
+    global stop2
+    if not stop2:
+        intro.clear()
+        choice1.hideturtle()
+        choice2.hideturtle()
+        player.goto(50, -50)
+        choice1.shape(king_image)
+        choice1.goto(-300, -200)
+        player.hideturtle()
+        player.goto(500, -230)
+        time.sleep(1)
+        choice1.showturtle()
+        wn.bgpic('cave_bg.gif')
+        player.showturtle()
+        player.goto(200, -230)
+        stop2 = True
 
 wn.onkeypress(begin, "s")
 choice1.onclick(cave)
