@@ -12,22 +12,32 @@ answer = "echo"
 
 choice1 = trtl.Turtle()
 choice1.hideturtle()
-cave_image = "cave_choice.gif"
 choice2 = trtl.Turtle()
 choice2.hideturtle()
+yeschoice = trtl.Turtle()
+yeschoice.hideturtle()
+nochoice = trtl.Turtle()
+nochoice.hideturtle() 
 river = trtl.Turtle()
 river.hideturtle()
 queen = trtl.Turtle()
 queen.hideturtle()
 queen.penup()
-waterfall_image = "waterfall_choice.gif"
+
+#----Register shapes----
+cave_image = "cave_choice.gif" #gif created with giphy
+waterfall_image = "waterfall_choice.gif" #gif created with giphy
 queen_image = 'ocean_queen.gif'
 king_image = 'burrow_king.gif'
+yes_image = 'yes_choice.gif' #gif created with giphy
+no_image = 'no_choice.gif'  #gif created with giphy
 wn.register_shape(queen_image)
 wn.register_shape(image_file)
 wn.register_shape(cave_image)
 wn.register_shape(waterfall_image)
 wn.register_shape(king_image)
+wn.register_shape(yes_image)
+wn.register_shape(no_image)
 
 choice1.shape(cave_image)
 choice2.shape(waterfall_image)
@@ -78,6 +88,7 @@ def begin():
 
 def waterfall(x, y):
     global stop1
+    global stop2
     if not stop1:
         intro.clear()
         choice1.hideturtle()
@@ -102,12 +113,26 @@ def waterfall(x, y):
         intro.write("The dark overlord has been polluting \nthe river and disturbing the peace!\nPlease help me stop him!", font=style, align='center')  
         river.clear()
         time.sleep(2)
-        river.write("Very well... for the river\n But if I am too\nlend you my help, \n you must pass a test", font=style, align='center')
-        
+        river.write("Very well... for the river\nBut if I am to\nlend you my help, \nyou must pass a test", font=style, align='center')
         stop1 = True
+        stop2 = True
+        intro.clear()
+        river.clear()
+        river.goto(240,-150)
+        river.pencolor("white")
+        river.write("Take the test?", font=style, align='center')
+        yeschoice.penup()
+        yeschoice.shape(yes_image)
+        yeschoice.goto(150,-200)
+        nochoice.penup()
+        nochoice.shape(no_image)   
+        nochoice.goto(350,-200)
+        yeschoice.showturtle()
+        nochoice.showturtle()
 
 def cave(x, y):
     global stop2
+    global stop1
     if not stop2:
         intro.clear()
         choice1.hideturtle()
@@ -122,7 +147,19 @@ def cave(x, y):
         wn.bgpic('cave_bg.gif')
         player.showturtle()
         player.goto(200, -230)
+        river.penup()
+        river.goto(-250, -100)
+        river.pencolor("white")
+        river.write("Hello turtle...\nWhat do the land dwellers \nhave to do with the \npoor burrow king?", font=style, align='center')
+        intro.pencolor("white")
+        intro.goto(200, -100)
+        time.sleep(2)
+        intro.write("The dark overlord has been drilling \nthe caves and disturbing the peace!\nPlease help me stop him!", font=style, align='center')  
+        river.clear()
+        time.sleep(2)
+        river.write("Very well... for the caves\nBut if I am to\nlend you my help, \nyou must pass a test", font=style, align='center')
         stop2 = True
+        stop1 = True
 
 wn.onkeypress(begin, "s")
 choice1.onclick(cave)
