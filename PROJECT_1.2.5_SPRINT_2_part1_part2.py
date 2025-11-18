@@ -7,9 +7,6 @@ wn.setup(width=1000, height=600)
 player = trtl.Turtle()
 image_file = "the_turtle.gif"
 
-riddle = "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?"
-answer = "echo"
-
 choice1 = trtl.Turtle()
 choice1.hideturtle()
 cave_image = "cave_choice.gif"
@@ -67,7 +64,7 @@ def begin():
         intro.write("Welcome to the waterfall meadow! To stop the \ndark overlord, we will need some help!", font=style, align = 'center')
         intro.goto(20, 80)
         time.sleep(1)
-        intro.write("\n\n\n\nI heard that the river queen doesn't like \nhim! But also, the burrow king doesn't \nlike him either! Who should we ask for help?", font=style, align='center')
+        intro.write("I heard that the river queen doesn't like \nhim! But also, the burrow king doesn't \nlike him either! Who should we ask for help?", font=style, align='center')
         choice1.penup()
         choice1.goto(50,-50)
         choice1.showturtle()
@@ -102,7 +99,7 @@ def waterfall(x, y):
         intro.write("The dark overlord has been polluting \nthe river and disturbing the peace!\nPlease help me stop him!", font=style, align='center')  
         river.clear()
         time.sleep(2)
-        river.write("Very well... for the river\n But if I am too\nlend you my help, \n you must pass a test", font=style, align='center')
+        river.write("Very well... for the river\nBut if I am too\nlend you my help, \nyou must pass a test", font=style, align='center')
         
         stop1 = True
 
