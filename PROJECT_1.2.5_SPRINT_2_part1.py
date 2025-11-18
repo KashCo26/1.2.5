@@ -6,6 +6,9 @@ wn = trtl.Screen()
 player = trtl.Turtle()
 image_file = "the_turtle.gif"
 
+riddle = "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?"
+answer = "echo"
+
 choice1 = trtl.Turtle()
 choice1.hideturtle()
 cave_image = "cave_choice.gif"
