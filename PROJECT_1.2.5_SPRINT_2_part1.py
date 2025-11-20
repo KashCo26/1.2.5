@@ -3,34 +3,46 @@ import time
 
 #----Initialize turtles----
 wn = trtl.Screen()
-wn.setup(width=1000, height=600)
+wn.setup(width=1000, height=600) #sets the screen size as the backgrounds are different sizes
+
+def initialize_turtle(name):
+    '''Initializes the turtle using the parameter name and labels it as the name specified
+    Makes it easier to initialize turtles and keep them hidden'''
+    name = trtl.Turtle()
+    name.hideturtle()
+    name.penup()
+    return name
+
+#call initialize_turtle function
 player = trtl.Turtle()
-image_file = "the_turtle.gif"
-
-riddle = "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?"
-answer = "echo"
-
-choice1 = trtl.Turtle()
-choice1.hideturtle()
-choice2 = trtl.Turtle()
-choice2.hideturtle()
-yeschoice = trtl.Turtle()
-yeschoice.hideturtle()
-nochoice = trtl.Turtle()
-nochoice.hideturtle() 
-river = trtl.Turtle()
-river.hideturtle()
-queen = trtl.Turtle()
-queen.hideturtle()
-queen.penup()
+choice1 = initialize_turtle('choice1')
+choice2 = initialize_turtle('choice2')
+yeschoice = initialize_turtle('yeschoice')
+nochoice = initialize_turtle('nochoice')
+river = initialize_turtle('river')
+queen = initialize_turtle('queen')
+yeschoice2 = initialize_turtle('yeschoice2')
+nochoice2 = initialize_turtle('nochoice2')
+intro = initialize_turtle('intro')
+ghost = initialize_turtle('ghost')
+secret = initialize_turtle('secret')
+wind = initialize_turtle('wind')
+echo = initialize_turtle('echo')
 
 #----Register shapes----
-cave_image = "cave_choice.gif" #gif created with giphy
-waterfall_image = "waterfall_choice.gif" #gif created with giphy
-queen_image = 'ocean_queen.gif'
-king_image = 'burrow_king.gif'
-yes_image = 'yes_choice.gif' #gif created with giphy
-no_image = 'no_choice.gif'  #gif created with giphy
+image_file = "the_turtle.gif" #image from pixilart by pinkissocool
+cave_image = "cave_choice.gif" #image created with giphy by me
+waterfall_image = "waterfall_choice.gif" #image created with giphy by me
+queen_image = 'ocean_queen.gif' #image by Dreamstime
+king_image = 'burrow_king.gif' #image from Soul Knight Wiki
+yes_image = 'yes_choice.gif' #image created with giphy by me
+no_image = 'no_choice.gif'  #image created with giphy by me
+over_image = 'game_over.gif' #image by Dorothy Lear from Dribble
+ghost_image = 'ghost_choice.gif' #image created with giphy by me
+secret_image = 'secret_choice.gif' #image created with giphy by me
+wind_image = 'wind_choice.gif' #image created with giphy by me
+echo_image = 'echo_choice.gif' #image created with giphy by me
+
 wn.register_shape(queen_image)
 wn.register_shape(image_file)
 wn.register_shape(cave_image)
@@ -38,7 +50,11 @@ wn.register_shape(waterfall_image)
 wn.register_shape(king_image)
 wn.register_shape(yes_image)
 wn.register_shape(no_image)
-wn.register_shape('game_over')
+wn.register_shape(over_image)
+wn.register_shape(ghost_image)
+wn.register_shape(secret_image)
+wn.register_shape(wind_image)
+wn.register_shape(echo_image)
 
 choice1.shape(cave_image)
 choice2.shape(waterfall_image)
@@ -47,27 +63,29 @@ player.shape(image_file)
 player.penup()
 player.goto(0, -200)
 
-wn.bgpic('default.gif')
+wn.bgpic('default.gif') #image from iStock
 
-intro = trtl.Turtle()
 style = ('Caveat', 15, 'bold')
-intro.penup()
-intro.hideturtle()
 intro.goto(20, 80)
-intro.write("Welcome, player, to Turtle quest! \nMy name's Trotter and you are\ngoing to guide me on our adventure today! \nYou will be given two options as we\nmove through the land. There is a dark overlord \nin these parts and he's out for \nour town next! We must stop him! \n(click s to begin)", font=style, align='center')
+intro.write("Welcome, player, to Turtle ! \nMy name's Trotter and you are\ngoing to guide me on our adventure today! \nYou will be given two options as we\nmove through the land. There is a dark overlord \nin these parts and he's out for \nour town next! We must stop him! \n(click s to begin)", font=style, align='center')
 
-#----Turtle onclick methods----
+#----Game variables ----
 terminate = False
 stop1 = False
 stop2 = False
+riddle = "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?"
+answer = "echo"
+problem = "Mr. Lee has 32 students in his first period class. He has twice that number of students in his second and fourth period classes separately. He has half that number of students in his third period class. He has a total of 180 students. If he has no fifth period class, how many students are in his sixth period class?"
+math_answer = 4
 
+#---- Game methods ----
 def begin():
     global terminate
     global choice1
     global choice2
     if not terminate:
         player.goto(500, -200)
-        wn.bgpic('panel-2.gif')
+        wn.bgpic('panel-2.gif') #image from lospec by bobablin
         intro.clear()
         player.hideturtle()
         player.goto(-500, -100)
@@ -99,7 +117,7 @@ def waterfall(x, y):
         queen.goto(300, 100)
         player.hideturtle()
         player.goto(-500, -200)
-        wn.bgpic('underwater.gif')
+        wn.bgpic('underwater.gif') #image from cute kawaii resources by beaches
         queen.showturtle()
         time.sleep(1)
         player.showturtle()
@@ -146,7 +164,7 @@ def cave(x, y):
         player.goto(500, -230)
         time.sleep(1)
         choice1.showturtle()
-        wn.bgpic('cave_bg.gif')
+        wn.bgpic('cave_bg.gif') #image from deviantart by kristyglas
         player.showturtle()
         player.goto(200, -230)
         river.penup()
@@ -162,17 +180,48 @@ def cave(x, y):
         river.write("Very well... for the caves\nBut if I am to\nlend you my help, \nyou must pass a test", font=style, align='center')
         stop2 = True
         stop1 = True
+        intro.clear()
+        river.clear()
+        river.goto(0,250)
+        river.write("Take the test?", font=style, align='center')
+        yeschoice2.penup()
+        yeschoice2.shape(yes_image)
+        yeschoice2.goto(-100,200)
+        nochoice2.penup()
+        nochoice2.shape(no_image)   
+        nochoice2.goto(100,200)
+        yeschoice2.showturtle()
+        nochoice2.showturtle()
 
 def riddle():
-    pass
-def dead_end():
-    wn.bgpic('game_over')
+    intro.write("I'll take the test! I can do it!", font=style, align='center')
+    time.sleep(1)
+    river.write("Here is your test...", font=style, align='center')
+    time.sleep(0.5)
+    river.clear()
+    river.write(riddle, font=style, align='center')
 
+def math():
+    intro.write("I'll take the test! I can do it!", font=style, align='center')
+    time.sleep(1)
+    river.write("Here is your test...", font=style, align='center')
+    time.sleep(0.5)
+    river.clear()
+    river.write(problem, font=style, align='center')
+
+def dead_end():
+    wn.bgpic(over_image)
+    wn.clear()
+
+
+#---Turtle onclick methods---
 wn.onkeypress(begin, "s")
 choice1.onclick(cave)
 choice2.onclick(waterfall)
 yeschoice.onclick(riddle)
 nochoice.onclick(dead_end)
+nochoice2.onclick(dead_end)
+yeschoice2.onclick(math)
 
 wn.listen()
 wn.mainloop()
