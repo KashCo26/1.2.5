@@ -5,29 +5,25 @@ import time
 wn = trtl.Screen()
 wn.setup(width=1000, height=600) #sets the screen size as the backgrounds are different sizes
 
-def initialize_turtle(name):
+def initialize_turtle():
     '''Initializes the turtle using the parameter name and labels it as the name specified
     Makes it easier to initialize turtles and keep them hidden'''
-    name = trtl.Turtle()
-    name.hideturtle()
-    name.penup()
-    return name
+    t = trtl.Turtle()
+    t.hideturtle()
+    t.penup()
+    return t
 
 #call initialize_turtle function
 player = trtl.Turtle()
-choice1 = initialize_turtle('choice1')
-choice2 = initialize_turtle('choice2')
-yeschoice = initialize_turtle('yeschoice')
-nochoice = initialize_turtle('nochoice')
-river = initialize_turtle('river')
-queen = initialize_turtle('queen')
-yeschoice2 = initialize_turtle('yeschoice2')
-nochoice2 = initialize_turtle('nochoice2')
-intro = initialize_turtle('intro')
-ghost = initialize_turtle('ghost')
-secret = initialize_turtle('secret')
-wind = initialize_turtle('wind')
-echo = initialize_turtle('echo')
+choice1 = initialize_turtle()
+choice2 = initialize_turtle()
+yeschoice = initialize_turtle()
+nochoice = initialize_turtle()
+river = initialize_turtle()
+queen = initialize_turtle()
+yeschoice2 = initialize_turtle()
+nochoice2 = initialize_turtle()
+intro = initialize_turtle()
 
 #----Register shapes----
 image_file = "the_turtle.gif" #image from pixilart by pinkissocool
@@ -101,6 +97,11 @@ def begin():
         terminate = True
 
 def test_river():
+    global yeschoice
+    global nochoice
+    global river
+    global intro
+    global player
     intro.clear()
     river.clear()
     river.goto(240,-150)
@@ -114,6 +115,8 @@ def test_river():
     nochoice.goto(350,-200)
     yeschoice.showturtle()
     nochoice.showturtle()
+    yeschoice.onclick(riddle_question)
+    nochoice.onclick(dead_end)
 
 def waterfall(x, y):
     global stop1
@@ -148,6 +151,11 @@ def waterfall(x, y):
         stop2 = True
         
 def test_cave():
+    global yeschoice2
+    global nochoice2
+    global river
+    global intro
+    global player
     intro.clear()
     river.clear()
     river.goto(0,250)
@@ -159,7 +167,9 @@ def test_cave():
     nochoice2.shape(no_image)   
     nochoice2.goto(100,200)
     yeschoice2.showturtle()
-    nochoice2.showturtle()          
+    nochoice2.showturtle()
+    nochoice2.onclick(dead_end)
+    yeschoice2.onclick(math)          
 
 def cave(x, y):
     global stop2
@@ -194,6 +204,16 @@ def cave(x, y):
         wn.ontimer(test_cave, 2000)
 
 def riddle_question(x, y):
+    global intro
+    global river
+    global player
+    global yeschoice
+    global nochoice
+    yeschoice.hideturtle()
+    nochoice.hideturtle()
+    intro.clear()
+    river.clear()
+    river.goto(150, 150)
     intro.write("I'll take the test! I can do it!", font=style, align='center')
     time.sleep(1)
     river.write("Here is your test...", font=style, align='center')
@@ -201,14 +221,24 @@ def riddle_question(x, y):
     user_input = trtl.textinput("Please enter your answer:", riddle) #utilized google AI to learn how to create text input on turtle
     if user_input == answer:
         river.clear()
-        river.write("Very well. Since you have answered my riddle correctly, you may take my troops to fight the dark one", font=style, align='center')
+        river.write("Very well. Since you have \nanswered my riddle correctly, \nyou may take my troops to fight the dark one", font=style, align='center')
     else:
         river.clear()
-        river.write("If you cannot solve such a simple problem, you are not fit to lead my troops!", font=style, align='center')
+        river.write("If you cannot solve such a simple problem, \nyou are not fit to lead my troops!", font=style, align='center')
         time.sleep(2)
         dead_end()
 
 def math(x, y):
+    global intro
+    global river
+    global player
+    global yeschoice2
+    global nochoice2
+    yeschoice2.hideturtle()
+    nochoice2.hideturtle()
+    intro.clear()
+    river.clear()
+    river.goto(-250, -100)
     intro.write("I'll take the test! I can do it!", font=style, align='center')
     time.sleep(1)
     river.write("Here is your test...", font=style, align='center')
@@ -216,14 +246,24 @@ def math(x, y):
     user_input = trtl.textinput("Please enter your answer", problem) #utilized google AI to learn how to create text input on turtle
     if user_input == math_answer:
         river.clear()
-        river.write("Very well. Since you have answered my problem correctly, you may take my troops to fight the dark one", font=style, align='center')
+        river.write("Very well. \nSince you have answered my problem \ncorrectly, you may take my troops to fight the dark one", font=style, align='center')
     else:
         river.clear()
-        river.write("If you cannot solve such a simple problem, you are not fit to lead my troops!", font=style, align='center')
+        river.write("If you cannot solve such a simple problem, \nyou are not fit to lead my troops!", font=style, align='center')
         time.sleep(2)
         dead_end()
 
 def dead_end(x,y):
+    global player
+    global choice1
+    global choice2 
+    global yeschoice
+    global nochoice
+    global yeschoice2
+    global nochoice2
+    global river
+    global intro
+    global queen
     wn.bgpic(over_image)
     player.hideturtle()
     choice1.hideturtle()
@@ -234,15 +274,12 @@ def dead_end(x,y):
     nochoice2.hideturtle()
     river.clear()
     intro.clear()
+    queen.hideturtle()
 
 #---Turtle onclick methods---
 wn.onkeypress(begin, "s")
 choice1.onclick(cave)
 choice2.onclick(waterfall)
-yeschoice.onclick(riddle_question)
-nochoice.onclick(dead_end)
-nochoice2.onclick(dead_end)
-yeschoice2.onclick(math)
 
 wn.listen()
 wn.mainloop()
