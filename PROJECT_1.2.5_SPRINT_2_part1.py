@@ -38,6 +38,7 @@ wn.register_shape(waterfall_image)
 wn.register_shape(king_image)
 wn.register_shape(yes_image)
 wn.register_shape(no_image)
+wn.register_shape('game_over')
 
 choice1.shape(cave_image)
 choice2.shape(waterfall_image)
@@ -116,6 +117,7 @@ def waterfall(x, y):
         river.write("Very well... for the river\nBut if I am to\nlend you my help, \nyou must pass a test", font=style, align='center')
         stop1 = True
         stop2 = True
+        time.sleep(2)
         intro.clear()
         river.clear()
         river.goto(240,-150)
@@ -161,9 +163,16 @@ def cave(x, y):
         stop2 = True
         stop1 = True
 
+def riddle():
+    pass
+def dead_end():
+    wn.bgpic('game_over')
+
 wn.onkeypress(begin, "s")
 choice1.onclick(cave)
 choice2.onclick(waterfall)
+yeschoice.onclick(riddle)
+nochoice.onclick(dead_end)
 
 wn.listen()
 wn.mainloop()
