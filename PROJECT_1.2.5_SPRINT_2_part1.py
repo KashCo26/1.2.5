@@ -59,7 +59,7 @@ wn.bgpic('default.gif') #image from iStock
 
 style = ('Caveat', 15, 'bold')
 intro.goto(20, 80)
-intro.write("Welcome, player, to Turtle ! \nMy name's Trotter and you are\ngoing to guide me on our adventure today! \nYou will be given two options as we\nmove through the land. There is a dark overlord \nin these parts and he's out for \nour town next! We must stop him! \n(click s to begin)", font=style, align='center')
+intro.write("Welcome, player, to Turtle Quest! \nMy name's Trotter and you are\ngoing to guide me on our adventure today! \nYou will be given two options as we\nmove through the land. There is a dark overlord \nin these parts and he's out for \nour town next! We must stop him! \n(click s to begin)", font=style, align='center')
 
 #----Game variables ----
 terminate = False
@@ -100,6 +100,21 @@ def begin():
         choice2.showturtle()
         terminate = True
 
+def test_river():
+    intro.clear()
+    river.clear()
+    river.goto(240,-150)
+    river.pencolor("white")
+    river.write("Take the test?", font=style, align='center')
+    yeschoice.penup()
+    yeschoice.shape(yes_image)
+    yeschoice.goto(150,-200)
+    nochoice.penup()
+    nochoice.shape(no_image)   
+    nochoice.goto(350,-200)
+    yeschoice.showturtle()
+    nochoice.showturtle()
+
 def waterfall(x, y):
     global stop1
     global stop2
@@ -128,22 +143,23 @@ def waterfall(x, y):
         river.clear()
         time.sleep(2)
         river.write("Very well... for the river\nBut if I am to\nlend you my help, \nyou must pass a test", font=style, align='center')
+        wn.ontimer(test_river, 2000)
         stop1 = True
         stop2 = True
-        time.sleep(2)
-        intro.clear()
-        river.clear()
-        river.goto(240,-150)
-        river.pencolor("white")
-        river.write("Take the test?", font=style, align='center')
-        yeschoice.penup()
-        yeschoice.shape(yes_image)
-        yeschoice.goto(150,-200)
-        nochoice.penup()
-        nochoice.shape(no_image)   
-        nochoice.goto(350,-200)
-        yeschoice.showturtle()
-        nochoice.showturtle()
+        
+def test_cave():
+    intro.clear()
+    river.clear()
+    river.goto(0,250)
+    river.write("Take the test?", font=style, align='center')
+    yeschoice2.penup()
+    yeschoice2.shape(yes_image)
+    yeschoice2.goto(-100,200)
+    nochoice2.penup()
+    nochoice2.shape(no_image)   
+    nochoice2.goto(100,200)
+    yeschoice2.showturtle()
+    nochoice2.showturtle()          
 
 def cave(x, y):
     global stop2
@@ -175,21 +191,9 @@ def cave(x, y):
         river.write("Very well... for the caves\nBut if I am to\nlend you my help, \nyou must pass a test", font=style, align='center')
         stop2 = True
         stop1 = True
-        time.sleep(1)
-        intro.clear()
-        river.clear()
-        river.goto(0,250)
-        river.write("Take the test?", font=style, align='center')
-        yeschoice2.penup()
-        yeschoice2.shape(yes_image)
-        yeschoice2.goto(-100,200)
-        nochoice2.penup()
-        nochoice2.shape(no_image)   
-        nochoice2.goto(100,200)
-        yeschoice2.showturtle()
-        nochoice2.showturtle()
+        wn.ontimer(test_cave, 2000)
 
-def riddle():
+def riddle_question(x, y):
     intro.write("I'll take the test! I can do it!", font=style, align='center')
     time.sleep(1)
     river.write("Here is your test...", font=style, align='center')
@@ -204,7 +208,7 @@ def riddle():
         time.sleep(2)
         dead_end()
 
-def math():
+def math(x, y):
     intro.write("I'll take the test! I can do it!", font=style, align='center')
     time.sleep(1)
     river.write("Here is your test...", font=style, align='center')
@@ -219,16 +223,23 @@ def math():
         time.sleep(2)
         dead_end()
 
-def dead_end():
+def dead_end(x,y):
     wn.bgpic(over_image)
-    wn.clear()
-
+    player.hideturtle()
+    choice1.hideturtle()
+    choice2.hideturtle()
+    yeschoice.hideturtle()
+    nochoice.hideturtle()
+    yeschoice2.hideturtle()
+    nochoice2.hideturtle()
+    river.clear()
+    intro.clear()
 
 #---Turtle onclick methods---
 wn.onkeypress(begin, "s")
 choice1.onclick(cave)
 choice2.onclick(waterfall)
-yeschoice.onclick(riddle)
+yeschoice.onclick(riddle_question)
 nochoice.onclick(dead_end)
 nochoice2.onclick(dead_end)
 yeschoice2.onclick(math)
