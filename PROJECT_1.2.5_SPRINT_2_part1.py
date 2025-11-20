@@ -38,10 +38,6 @@ king_image = 'burrow_king.gif' #image from Soul Knight Wiki
 yes_image = 'yes_choice.gif' #image created with giphy by me
 no_image = 'no_choice.gif'  #image created with giphy by me
 over_image = 'game_over.gif' #image by Dorothy Lear from Dribble
-ghost_image = 'ghost_choice.gif' #image created with giphy by me
-secret_image = 'secret_choice.gif' #image created with giphy by me
-wind_image = 'wind_choice.gif' #image created with giphy by me
-echo_image = 'echo_choice.gif' #image created with giphy by me
 
 wn.register_shape(queen_image)
 wn.register_shape(image_file)
@@ -51,10 +47,6 @@ wn.register_shape(king_image)
 wn.register_shape(yes_image)
 wn.register_shape(no_image)
 wn.register_shape(over_image)
-wn.register_shape(ghost_image)
-wn.register_shape(secret_image)
-wn.register_shape(wind_image)
-wn.register_shape(echo_image)
 
 choice1.shape(cave_image)
 choice2.shape(waterfall_image)
@@ -73,13 +65,16 @@ intro.write("Welcome, player, to Turtle ! \nMy name's Trotter and you are\ngoing
 terminate = False
 stop1 = False
 stop2 = False
-riddle = "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?"
+riddle = "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I? (ghost, secret, echo, wind are your options)"
 answer = "echo"
 problem = "Mr. Lee has 32 students in his first period class. He has twice that number of students in his second and fourth period classes separately. He has half that number of students in his third period class. He has a total of 180 students. If he has no fifth period class, how many students are in his sixth period class?"
 math_answer = 4
 
 #---- Game methods ----
 def begin():
+    '''Initializes the waterfall background and presents the user with two choices through a conversation.
+    Asks the user whether they want to go in the waterfall or cave and moves the turtle according
+    to which turtle button they click later in the code'''
     global terminate
     global choice1
     global choice2
@@ -180,6 +175,7 @@ def cave(x, y):
         river.write("Very well... for the caves\nBut if I am to\nlend you my help, \nyou must pass a test", font=style, align='center')
         stop2 = True
         stop1 = True
+        time.sleep(1)
         intro.clear()
         river.clear()
         river.goto(0,250)
@@ -198,16 +194,30 @@ def riddle():
     time.sleep(1)
     river.write("Here is your test...", font=style, align='center')
     time.sleep(0.5)
-    river.clear()
-    river.write(riddle, font=style, align='center')
+    user_input = trtl.textinput("Please enter your answer:", riddle) #utilized google AI to learn how to create text input on turtle
+    if user_input == answer:
+        river.clear()
+        river.write("Very well. Since you have answered my riddle correctly, you may take my troops to fight the dark one", font=style, align='center')
+    else:
+        river.clear()
+        river.write("If you cannot solve such a simple problem, you are not fit to lead my troops!", font=style, align='center')
+        time.sleep(2)
+        dead_end()
 
 def math():
     intro.write("I'll take the test! I can do it!", font=style, align='center')
     time.sleep(1)
     river.write("Here is your test...", font=style, align='center')
     time.sleep(0.5)
-    river.clear()
-    river.write(problem, font=style, align='center')
+    user_input = trtl.textinput("Please enter your answer", problem) #utilized google AI to learn how to create text input on turtle
+    if user_input == math_answer:
+        river.clear()
+        river.write("Very well. Since you have answered my problem correctly, you may take my troops to fight the dark one", font=style, align='center')
+    else:
+        river.clear()
+        river.write("If you cannot solve such a simple problem, you are not fit to lead my troops!", font=style, align='center')
+        time.sleep(2)
+        dead_end()
 
 def dead_end():
     wn.bgpic(over_image)
