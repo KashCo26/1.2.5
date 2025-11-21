@@ -34,6 +34,7 @@ king_image = 'burrow_king.gif' #image from Soul Knight Wiki
 yes_image = 'yes_choice.gif' #image created with giphy by me
 no_image = 'no_choice.gif'  #image created with giphy by me
 over_image = 'game_over.gif' #image by Dorothy Lear from Dribble
+castle_bg = 'castle.gif' #image from pixilart by Grabrela
 
 wn.register_shape(queen_image)
 wn.register_shape(image_file)
@@ -43,6 +44,7 @@ wn.register_shape(king_image)
 wn.register_shape(yes_image)
 wn.register_shape(no_image)
 wn.register_shape(over_image)
+wn.register_shape(castle_bg)
 
 choice1.shape(cave_image)
 choice2.shape(waterfall_image)
@@ -63,7 +65,7 @@ stop1 = False
 stop2 = False
 riddle = "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I? (ghost, secret, echo, wind are your options)"
 answer = "echo"
-problem = "Mr. Lee has 32 students in his first period class. He has twice that number of students in his second and fourth period classes separately. He has half that number of students in his third period class. He has a total of 180 students. If he has no fifth period class, how many students are in his sixth period class?"
+problem = "Mr. Lee has 32 students in his first period class. He has twice that \nnumber of students in his second and fourth period \nclasses separately. He has half that number of students in \nhis third period class. He has a total of 180 students. \nIf he has no fifth period class, how many students are in his sixth period class?"
 math_answer = 4
 
 #---- Game methods ----
@@ -203,6 +205,27 @@ def cave(x, y):
         stop1 = True
         wn.ontimer(test_cave, 2000)
 
+def castle(land):
+    if land == "river":
+        player.goto(600, -200)
+    else:
+        player.goto(600, -230)
+    player.hideturtle()
+    player.goto(-600, -250)
+    river.clear()
+    intro.clear()
+    player.showturtle()
+    time.sleep(1)
+    choice1.hideturtle()
+    queen.hideturtle()
+    choice2.hideturtle()
+    wn.bgpic(castle_bg)
+    player.goto(-100, -250)
+    time.sleep(1)
+    intro.pencolor("white")
+    intro.goto(0, 150)
+    intro.write("With the help of the turtle king and \nthe turtle queen, we have gathered \nan army to fight the dark overlord! \nGood luck, brave turtle (click r to go inside)!", font=style, align='center')
+
 def riddle_question(x, y):
     global intro
     global river
@@ -221,7 +244,9 @@ def riddle_question(x, y):
     user_input = trtl.textinput("Please enter your answer:", riddle) #utilized google AI to learn how to create text input on turtle
     if user_input == answer:
         river.clear()
-        river.write("Very well. Since you have \nanswered my riddle correctly, \nyou may take my troops to fight the dark one", font=style, align='center')
+        river.write("   Very well. Since you have \nanswered my riddle correctly, \nyou may take my troops to fight the dark one", font=style, align='center')
+        time.sleep(1)
+        castle("river")
     else:
         river.clear()
         river.write("If you cannot solve such a simple problem, \nyou are not fit to lead my troops!", font=style, align='center')
@@ -244,16 +269,18 @@ def math(x, y):
     river.write("Here is your test...", font=style, align='center')
     time.sleep(0.5)
     user_input = trtl.textinput("Please enter your answer", problem) #utilized google AI to learn how to create text input on turtle
-    if user_input == math_answer:
+    if user_input == str(math_answer):
         river.clear()
         river.write("Very well. \nSince you have answered my problem \ncorrectly, you may take my troops to fight the dark one", font=style, align='center')
+        time.sleep(1)
+        castle("cave")
     else:
         river.clear()
         river.write("If you cannot solve such a simple problem, \nyou are not fit to lead my troops!", font=style, align='center')
         time.sleep(2)
         dead_end()
 
-def dead_end(x,y):
+def dead_end(x=None, y=None):
     global player
     global choice1
     global choice2 
@@ -264,6 +291,7 @@ def dead_end(x,y):
     global river
     global intro
     global queen
+    time.sleep(1)
     wn.bgpic(over_image)
     player.hideturtle()
     choice1.hideturtle()
