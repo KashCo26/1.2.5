@@ -40,6 +40,7 @@ bowser_image = 'bowser.gif' #image from Alpha Coders by robokoboto
 castle_hall = 'inside_castle.gif' #image from PixelJoint
 turtle_fireball = 'turtle_fireball.gif' #image from Pixilart by the-ernis
 bowser_fireball = 'bowser_fireball.gif' #image from Pixilart by the-ernis
+winner = 'you_win.gif' #image from Linkedin by Dialect
 
 wn.register_shape(queen_image)
 wn.register_shape(image_file)
@@ -406,7 +407,7 @@ def win():
     '''If the user defeats bowser, the program displays a screen showing that they win'''
     global player, choice1, choice2, yeschoice, nochoice, yeschoice2, nochoice2, river, intro, queen
     time.sleep(1)
-    wn.bgpic('win.gif')
+    wn.bgpic(winner)
     player.hideturtle()
     choice1.hideturtle()
     choice2.hideturtle()
