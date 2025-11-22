@@ -40,7 +40,7 @@ bowser_image = 'bowser.gif' #image from Alpha Coders by robokoboto
 castle_hall = 'inside_castle.gif' #image from PixelJoint
 turtle_fireball = 'turtle_fireball.gif' #image from Pixilart by the-ernis
 bowser_fireball = 'bowser_fireball.gif' #image from Pixilart by the-ernis
-winner = 'you_win.gif' #image from Linkedin by Dialect
+winner = 'win.gif' #image from Linkedin by Dialect
 
 wn.register_shape(queen_image)
 wn.register_shape(image_file)
@@ -52,6 +52,8 @@ wn.register_shape(no_image)
 wn.register_shape(over_image)
 wn.register_shape(castle_bg)
 wn.register_shape(bowser_image)
+wn.register_shape(turtle_fireball)
+wn.register_shape(bowser_fireball)
 
 choice1.shape(cave_image)
 choice2.shape(waterfall_image)
@@ -251,8 +253,9 @@ def riddle_question(x, y): #takes parameters (x,y) as it is an onclick function
     user_input = trtl.textinput("Please enter your answer:", riddle) #utilized google AI to learn how to create text input on turtle
     if user_input == answer:
         river.clear()
-        river.write("   Very well. Since you have \nanswered my riddle correctly, \nyou may take my troops to fight the dark one", font=style, align='center')
+        river.write("   Very well. Since you have \nanswered my riddle correctly, \nyou may take my troops to fight \nthe dark one", font=style, align='center')
         time.sleep(1)
+        wn.listen()
         castle("river")
     else:
         river.clear()
@@ -277,8 +280,9 @@ def math(x, y): #takes parameters (x,y) as it is an onclick function
     user_input = trtl.textinput("Please enter your answer", problem) #utilized google AI to learn how to create text input on turtle
     if user_input == str(math_answer):
         river.clear()
-        river.write("Very well. \nSince you have answered my problem \ncorrectly, you may take my troops to fight the dark one", font=style, align='center')
+        river.write("Very well. \nSince you have answered my problem \ncorrectly, you may take my troops to fight \nthe dark one", font=style, align='center')
         time.sleep(1)
+        wn.listen()
         castle("cave")
     else:
         river.clear()
@@ -296,26 +300,27 @@ def boss_dialogue():
     player.goto(-600, -250)
     wn.bgpic(castle_hall)
     bowser.shape(bowser_image)
-    river.goto(200, 0)
-    bowser.goto(300, -150)
+    river.goto(250, -50)
+    bowser.goto(300, -180)
     bowser.showturtle()
-    intro.goto(-200, 0)
+    intro.goto(-330, -50)
     player.showturtle()
-    player.goto(-300, -150)
+    player.goto(-300, -200)
     time.sleep(1)
     river.pencolor("white")
     intro.pencolor("white")
     river.write("Who are you?!", font=style, align='center')
-    time.sleep(0.5)
+    time.sleep(1)
     intro.write("I am Trotter and I\n have come to stop you \nfrom bothering the townspeople!", font=style, align='center')
-    time.sleep(0.5)
+    time.sleep(2)
     river.clear()
     river.write("Hahahahaha! YOU! DEFEAT ME?? \nNo one can defeat me MUAHAHA!", font=style, align='center')
-    time.sleep(1)
+    time.sleep(2)
     intro.clear()
-    intro.write("We will see about that! I challenge you!", font=style, align='center')
-    time.sleep(0.5)
-    river.clear("Okay pipsqueak! Let's fight!", font=style, align='center')
+    intro.write("We will see about that! \nI challenge you!", font=style, align='center')
+    time.sleep(1)
+    river.clear()
+    river.write("Okay pipsqueak! Let's fight!", font=style, align='center')
     time.sleep(2)
     boss_fight()
 
@@ -324,18 +329,21 @@ def boss_fight():
     The program tells the user how to start and checks if the lives have changed of either 
     party. Bowser attacks steadily every 2.5 seconds whereas the user attacks when they
     click a.'''
-    global fireballs, bowser_balls, user_lives, bowser_lives
+    global fireballs, bowser_balls, user_lives, bowser_lives, intro1
+    intro1 = initialize_turtle()
     fireballs = []
     bowser_balls = []
     intro.clear()
     river.clear()
-    intro.write("Click a to attack!")
+    intro1.goto(0, 300)
+    intro1.pencolor("white")
+    intro1.write("Click a to attack!", font=style, align='center')
     intro.goto(-300, 200)
     river.goto(300, 200)
     user_lives = 5
     bowser_lives = 5
-    while user_lives > 0 or bowser_lives > 0:
-        time.sleep(2.5)
+    while user_lives > 0 and bowser_lives > 0:
+        time.sleep(2)
         bowser_attack()
     if user_lives == 0:
         dead_end()
@@ -346,15 +354,17 @@ def if_collide(): #code from 1.1.8 but slightly modified
     '''Program goes through every ball in each fireball list and checks if it 
     has collided with the user or bowser. If so, they lose a life.'''
     global fireballs, bowser_balls, user_lives, bowser_lives
+    intro.clear()
+    river.clear()
     intro.write(f"Lives left: {user_lives}", font=style, align='center')
     river.write(f"Lives left: {bowser_lives}", font=style, align='center')
     for ht in fireballs: 
-        if (abs(ht.xcor() - bowser.xcor()) < 20) and (abs(ht.ycor() - bowser.ycor()) < 20):
-                bowser_lives -= 1
-                ht.hideturtle()
-                fireballs.remove(ht)
+        if (abs(ht.xcor() - bowser.xcor()) < 20) and (abs(ht.ycor() + 150) < 20):
+            bowser_lives -= 1
+            ht.hideturtle()
+            fireballs.remove(ht)
     for vt in bowser_balls:
-        if (abs(vt.xcor() - player.xcor()) < 20) and (abs(vt.ycor() - player.ycor()) < 20):
+        if (abs(vt.xcor() - player.xcor()) < 20) and (abs(vt.ycor() + 150) < 20):
             user_lives -= 1
             vt.hideturtle()
             bowser_balls.remove(vt)
@@ -366,45 +376,44 @@ def if_collide(): #code from 1.1.8 but slightly modified
 def bowser_attack():
     '''Updates the lives left in the program and initializes the turtles for when bowser attacks'''
     global fireballs, bowser_balls, user_lives, bowser_lives
-    intro.write(f"Lives left: {user_lives}", font=style, align='center')
-    river.write(f"Lives left: {bowser_lives}", font=style, align='center')
     '''code from 1.2.3 Apple Avalanche but slightly modified'''
     ball = trtl.Turtle()
     ball.hideturtle()
     ball.penup()
-    ball.goto(-280, -130)
+    ball.goto(280, -150)
     ball.showturtle()
     ball.shape(bowser_fireball)
     bowser_balls.append(ball)
-    ball.goto(300, -130)
+    ball.goto(-300, -150)
     if user_lives == 0:
         dead_end()
     elif bowser_lives == 0:
         win()
+    if_collide()
            
 
 def attack():
     '''Updates the lives left and initializes the turtles for when the user clicks a'''
     global fireballs, bowser_balls, user_lives, bowser_lives
-    intro.write(f"Lives left: {user_lives}", font=style, align='center')
-    river.write(f"Lives left: {bowser_lives}", font=style, align='center')
     '''code from 1.2.3 Apple Avalanche but slightly modified'''
     fireball = trtl.Turtle()
     fireball.hideturtle()
     fireball.penup()
-    fireball.goto(-280, -130)
+    fireball.goto(-280, -150)
     fireball.showturtle()
     fireball.shape(turtle_fireball)
     fireballs.append(fireball)
-    fireball.goto(300, -130)
+    fireball.goto(300, -150)
     if user_lives == 0:
         dead_end()
     elif bowser_lives == 0:
         win()
+    if_collide()
 
 
 def win():
-    '''If the user defeats bowser, the program displays a screen showing that they win'''
+    '''If the user defeats bowser, the program displays a screen showing that they win and all the turtle will
+    be cleared'''
     global player, choice1, choice2, yeschoice, nochoice, yeschoice2, nochoice2, river, intro, queen
     time.sleep(1)
     wn.bgpic(winner)
@@ -415,8 +424,14 @@ def win():
     nochoice.hideturtle()
     yeschoice2.hideturtle()
     nochoice2.hideturtle()
+    bowser.hideturtle()
+    for ball in fireballs:
+        ball.hideturtle()
+    for ball in bowser_balls:
+        ball.hideturtle()
     river.clear()
     intro.clear()
+    intro1.clear()
     queen.hideturtle()
 
 def dead_end(x=None, y=None): #takes parameters (x,y) as it is an onclick function
@@ -424,6 +439,12 @@ def dead_end(x=None, y=None): #takes parameters (x,y) as it is an onclick functi
     global player, choice1, choice2, yeschoice, nochoice, yeschoice2, nochoice2, river, intro, queen
     time.sleep(1)
     wn.bgpic(over_image)
+    intro1.clear()
+    bowser.hideturtle()
+    for ball in fireballs:
+        ball.hideturtle()
+    for ball in bowser_balls:
+        ball.hideturtle()
     player.hideturtle()
     choice1.hideturtle()
     choice2.hideturtle()
@@ -436,11 +457,12 @@ def dead_end(x=None, y=None): #takes parameters (x,y) as it is an onclick functi
     queen.hideturtle()
 
 #---Turtle onclick methods---
-wn.onkeypress(boss_dialogue, "r")
 wn.onkeypress(begin, "s")
-wn.onkeypress(attack, "a")
 choice1.onclick(cave)
 choice2.onclick(waterfall)
+wn.onkeypress(boss_dialogue, "r")
+wn.onkeypress(attack, "a")
+
 
 wn.listen()
 wn.mainloop()
