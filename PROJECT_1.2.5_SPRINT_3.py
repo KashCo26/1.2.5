@@ -103,6 +103,8 @@ def begin():
         terminate = True
 
 def test_river():
+    '''Uses the turtle writer to write out a dialogue. Asks the user to take the test
+    and according to what turtle they click, a different function is called'''
     global yeschoice, nochoice, river, intro, player
     intro.clear()
     river.clear()
@@ -120,7 +122,10 @@ def test_river():
     yeschoice.onclick(riddle_question)
     nochoice.onclick(dead_end)
 
-def waterfall(x, y):
+def waterfall(x, y): #takes parameters (x,y) as it is an onclick function
+    '''changes the background to match the waterfall and starts a conversation
+    between the user and the river queen. after a 2 second pause, the program calls the take
+    test function'''
     global stop1, stop2
     if not stop1:
         intro.clear()
@@ -152,6 +157,8 @@ def waterfall(x, y):
         stop2 = True
         
 def test_cave():
+    '''asks the user if they would like to take the test and calls the 
+    corresponding function'''
     global yeschoice2, nochoice2, river, intro, player
     intro.clear()
     river.clear()
@@ -168,8 +175,11 @@ def test_cave():
     nochoice2.onclick(dead_end)
     yeschoice2.onclick(math)          
 
-def cave(x, y):
-    global stop2, stop1
+def cave(x, y): #takes parameters (x,y) as it is an onclick function
+    '''changes the background to a cave background and entails a conversation
+    between the user and burrow king. At the end, it transitions to test_cave to ask about the
+    test'''
+    global stop2, stop1 #ensure that if a turtle is clicked again, the function is not called
     if not stop2:
         intro.clear()
         choice1.hideturtle()
@@ -200,6 +210,9 @@ def cave(x, y):
         wn.ontimer(test_cave, 2000)
 
 def castle(land):
+    '''according to the land parameter, the player moves off screen differently to ensure
+    that it does not look like it is flying. It sets the background to outside the castle
+    and tells the user to go int'''
     if land == "river":
         player.goto(600, -200)
     else:
@@ -220,7 +233,10 @@ def castle(land):
     intro.goto(0, 150)
     intro.write("With the help of the turtle king and \nthe turtle queen, we have gathered \nan army to fight the dark overlord! \nGood luck, brave turtle (click r to go inside)!", font=style, align='center')
 
-def riddle_question(x, y):
+def riddle_question(x, y): #takes parameters (x,y) as it is an onclick function
+    '''when the user is asked the riddle by the river queen, a turtle input window pops
+    up and the user enters their answer to the riddle. If their answer is correct, they proceed.
+    Else, they lose.'''
     global intro, river, player, yeschoice, nochoice
     yeschoice.hideturtle()
     nochoice.hideturtle()
@@ -243,7 +259,10 @@ def riddle_question(x, y):
         time.sleep(2)
         dead_end()
 
-def math(x, y):
+def math(x, y): #takes parameters (x,y) as it is an onclick function
+    '''when the user is asked the problem by the burrow king, a turtle input window pops
+    up and the user enters their answer to the problem. If their answer is correct, they proceed.
+    Else, they lose.'''
     global intro, river, player, yeschoice2, nochoice2
     yeschoice2.hideturtle()
     nochoice2.hideturtle()
@@ -267,7 +286,10 @@ def math(x, y):
         dead_end()
 
 def boss_dialogue():
+    '''changes the background to inside the castle and starts a dialogue with
+    the bad guy. Then, it calls the boss_fight function'''
     intro.clear()
+    river.clear()
     player.goto(100, -50)
     player.hideturtle()
     player.goto(-600, -250)
@@ -281,6 +303,7 @@ def boss_dialogue():
     player.goto(-300, -150)
     time.sleep(1)
     river.pencolor("white")
+    intro.pencolor("white")
     river.write("Who are you?!", font=style, align='center')
     time.sleep(0.5)
     intro.write("I am Trotter and I\n have come to stop you \nfrom bothering the townspeople!", font=style, align='center')
@@ -296,13 +319,16 @@ def boss_dialogue():
     boss_fight()
 
 def boss_fight():
+    '''The fireball and bowser_ball lists are initialized and the lives are set as well.
+    The program tells the user how to start and checks if the lives have changed of either 
+    party. Bowser attacks steadily every 2.5 seconds whereas the user attacks when they
+    click a.'''
     global fireballs, bowser_balls, user_lives, bowser_lives
     fireballs = []
     bowser_balls = []
     intro.clear()
     river.clear()
     intro.write("Click a to attack!")
-    intro.clear()
     intro.goto(-300, 200)
     river.goto(300, 200)
     user_lives = 5
@@ -316,7 +342,11 @@ def boss_fight():
         win()
 
 def if_collide(): #code from 1.1.8 but slightly modified
+    '''Program goes through every ball in each fireball list and checks if it 
+    has collided with the user or bowser. If so, they lose a life.'''
     global fireballs, bowser_balls, user_lives, bowser_lives
+    intro.write(f"Lives left: {user_lives}", font=style, align='center')
+    river.write(f"Lives left: {bowser_lives}", font=style, align='center')
     for ht in fireballs: 
         if (abs(ht.xcor() - bowser.xcor()) < 20) and (abs(ht.ycor() - bowser.ycor()) < 20):
                 bowser_lives -= 1
@@ -333,12 +363,14 @@ def if_collide(): #code from 1.1.8 but slightly modified
         win()
 
 def bowser_attack():
+    '''Updates the lives left in the program and initializes the turtles for when bowser attacks'''
     global fireballs, bowser_balls, user_lives, bowser_lives
     intro.write(f"Lives left: {user_lives}", font=style, align='center')
     river.write(f"Lives left: {bowser_lives}", font=style, align='center')
     '''code from 1.2.3 Apple Avalanche but slightly modified'''
     ball = trtl.Turtle()
     ball.hideturtle()
+    ball.penup()
     ball.goto(-280, -130)
     ball.showturtle()
     ball.shape(bowser_fireball)
@@ -351,12 +383,14 @@ def bowser_attack():
            
 
 def attack():
+    '''Updates the lives left and initializes the turtles for when the user clicks a'''
     global fireballs, bowser_balls, user_lives, bowser_lives
     intro.write(f"Lives left: {user_lives}", font=style, align='center')
     river.write(f"Lives left: {bowser_lives}", font=style, align='center')
     '''code from 1.2.3 Apple Avalanche but slightly modified'''
     fireball = trtl.Turtle()
     fireball.hideturtle()
+    fireball.penup()
     fireball.goto(-280, -130)
     fireball.showturtle()
     fireball.shape(turtle_fireball)
@@ -369,9 +403,23 @@ def attack():
 
 
 def win():
+    '''If the user defeats bowser, the program displays a screen showing that they win'''
+    global player, choice1, choice2, yeschoice, nochoice, yeschoice2, nochoice2, river, intro, queen
+    time.sleep(1)
     wn.bgpic('win.gif')
+    player.hideturtle()
+    choice1.hideturtle()
+    choice2.hideturtle()
+    yeschoice.hideturtle()
+    nochoice.hideturtle()
+    yeschoice2.hideturtle()
+    nochoice2.hideturtle()
+    river.clear()
+    intro.clear()
+    queen.hideturtle()
 
-def dead_end(x=None, y=None):
+def dead_end(x=None, y=None): #takes parameters (x,y) as it is an onclick function
+    '''If the user happens to make a mistake or die, it displays the you lose screen'''
     global player, choice1, choice2, yeschoice, nochoice, yeschoice2, nochoice2, river, intro, queen
     time.sleep(1)
     wn.bgpic(over_image)
